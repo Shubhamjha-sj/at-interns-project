@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geofence List</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script defer src="registerPage.js"></script>
+    <link href="loginPage.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar fixed-top navbar-dark bg-info justify-content-between">
+    <a class="mb-01">
+        <span class="navbar-brand mb-01 h1" style="font-size: 23px">Geofencing </span>
+    </a>
+</nav>
+<div class="fadeInDown wrapper">
+    <div id="formContent">
+        
+        <div>
+            <img src="http://info.localytics.com/hs-fs/hubfs/Geofence.png?width=988&height=746&name=Geofence.png" id="icon" alt="User Icon" />
+        </div>
+        
+        <form>
+            <label for="register"></label><input type="text" id="register" name="register" placeholder="Username">
+            <label for="password"></label><input type="password" id="password" name="login" placeholder="Password"><br><br>
+            <p>Please set the preferred Autocomplete provider:</p><br>
+            <input type="radio" name="AutocompleteProvider" value="Google"> Google &nbsp;&nbsp;
+            <input type="radio" name="AutocompleteProvider" value="LocationIQ"> LocationIQ<br><br>
+            <input type="button" value="Register" onclick="onRegisterClicked()">
+        </form>
+        
+        <div id="formFooter">
+            Existing User
+            <a href="index.html">Login</a>
+        </div>
+    
+    </div>
+</div>
+
+</body>
+</html>

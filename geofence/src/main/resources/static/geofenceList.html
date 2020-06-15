@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geofence List</title>
+    <script crossorigin="anonymous"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+    <script defer src="geofenceList.js"></script>
+    <link href="geofenceList.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <nav aria-label="geofence-list-page-header" class="navbar fixed-top navbar-dark bg-info justify-content-between">
+        <span class="navbar-brand mb-01 h1" style="font-size: 23px">Geofencing</span>
+        <form class="form-inline">
+            <button class="btn btn-light" onclick="createNewGeofence()" style="margin-right: 10px" type="button">Create
+                New Geofence
+            </button>
+            <button class="btn btn-danger" id="deleteButton" onclick="deleteAllPolygons()" type="button">Delete All
+                Geofences
+            </button>
+        </form>
+    
+    </nav>
+
+</div>
+<br>
+<br>
+<br>
+
+<div class="list-header"><h3>Select Geofence</h3></div>
+
+<br>
+
+<div class="list-group">
+    <ul class="geofence-list-group" id="geofence-list-group">
+    
+    </ul>
+</div>
+
+<br>
+
+<nav aria-label="Pagination" id="Pagination">
+    <ul class="pagination justify-content-center" id="page-numbers-list-group">
+    
+    </ul>
+</nav>
+
+</body>
+</html>

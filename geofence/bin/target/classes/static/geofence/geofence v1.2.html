@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Geofence</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+    <script src="dist.js"></script>
+    <script src="fence.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrBHL-a2XCCK7bdYDbhV3NKvV1m8-PK7E&libraries=places&callback=checkMaps">
+    </script>
+    <style>
+         .button{
+            margin:15px;
+        }
+        #map{
+            height:800px;
+            margin:70px;
+            padding:10px;
+
+            border:2px solid #1D1F20;
+            box-shadow: 2px 2px #888888;
+        }
+        #search{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+
+        }
+        #find{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+        #searchAuto{
+            margin: 70px 20px 20px 10px;
+            padding:10px
+        }
+        #proximityThreshold{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+          #polygonName{
+              margin: 10px 20px 20px 10px;
+              padding:10px;
+          }
+      #searchGeofence{
+          margin: 10px 20px 20px 10px;
+          padding:10px;
+      }
+        </style>
+
+</head>
+
+<body>
+
+<nav class="navbar fixed-top navbar-dark bg-info justify-content-between">
+    <span class="navbar-brand mb-01 h1">Geofencing </span>
+    <form class="form-inline">
+        <button type="button" class="btn btn-light" style="margin-right: 10px" id="modal_button" data-toggle="modal" onclick="createModal()" data-target="#exampleModal">Load List of Geofences</button>
+        <button type="button" class="btn btn-light" style="margin-right: 10px" id="getButton" onclick="getPolygon()">Load Last Saved Geofence</button>
+        <button type="button" class="btn btn-danger" id="deleteButton" onclick="deleteAllPolygons()">Delete All Geofences</button>
+    </form>
+</nav>
+</nav>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">List of Geofences</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <ul class="list-group" id="list-group">
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+    <div class="row">
+        <div class="col" id="map"></div>
+        <div class="col" id="inputData">
+            <div class="row">
+                <div class="col" id="searchAuto">
+                    <div class="form-group">
+                        <label for="Location"> Enter Location to Geofence:</label>
+                        <input type="text" class="form-control" id="autoInput" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your location with anyone else.</small>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-5" id="proximityThreshold">
+                 <div class="form-group">
+                    <label for="Proximity"> Enter proximity threshold in metres:</label>
+                    <input type="text" class="form-control" id="proximityThresholdInput" aria-describedby="emailHelp" placeholder='For eg. 100'>
+                    <button type="button" class="btn btn-outline-info button" id="proximityButton" onclick="setProximityThreshold()">Set Proximity</button>
+                </div>
+            </div>
+            <div class="col-5" id="polygonName">
+                <div class="form-group">
+                    <label for="Geofence"> Enter the Geofence feature name:</label>
+                    <input type="text" class="form-control" id="polygonNameInput" aria-describedby="emailHelp">
+                    <button type="button" class="btn btn-outline-info button" id="postButton" onclick="getInfo()">Save Polygon</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5" id="find">
+                 <div class="form-group">
+                    <label for="Location"> Enter Location to Geofence:</label>
+                    <input type="text" class="form-control" id="exampleInputLocation" aria-describedby="emailHelp" value='20.9372,77.6952' >
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your location with anyone else.</small>
+                    <button type="button" class="btn btn-outline-info button" id="locateButton" onclick="initMaps()">Locate</button>
+                    <h5 id="liveCoords"></h5>
+                </div>
+            </div>
+            <div class="col-5" id="search">
+                <div class="form-group">
+                    <label for="Location">Location Marker:</label>
+                    <input type="email" class="form-control" id="exampleMarkerLocation" aria-describedby="emailHelp" value='20.9372,77.6952'>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your location with anyone else.</small>
+                    <button type="button" class="btn btn-outline-info button" id="checkButton" >Check</button>
+                </div>
+                <div class="col">
+                    <h2 id="result"></h2>
+                </div>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col" id="searchGeofence">
+                    <div class="form-group">
+                        <label for="Location">Search Geofence:</label>
+                        <input type="email" class="form-control" id="searchGeo" aria-describedby="emailHelp" placeholder='For eg. Cessna'>
+                        <button type="button" class="btn btn-outline-info button" id="checkGeofenceButton"  onclick="findPolygon()">Load Geofence By Name</button>
+                    </div>
+                   <div class="col">
+                        <h2 id="resultGeofence"></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col" id="deleteGeofence">
+                    <div class="form-group">
+                        <label for="Location">Delete Geofence:</label>
+                        <input type="email" class="form-control" id="deleteGeo" aria-describedby="emailHelp" placeholder='For eg. Cessna'>
+                        <button type="button" class="btn btn-outline-info button" id="deleteGeofenceButton"  onclick="deletePolygon()">Delete Geofence By Name</button>
+                    </div>
+                    <div class="col">
+                        <h2 id="deletePolygon"></h2>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

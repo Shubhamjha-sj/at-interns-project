@@ -1,0 +1,33 @@
+.list-header {
+    margin-top: 1%;
+    margin-left: 2%;
+}
+
+.list-group {
+    margin-right: 4%;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.geofence-delete-button {
+    text-decoration: underline;
+    color: #b71c1c;
+}
+.geofence-update-button {
+    text-decoration: underline;
+    color: #2B60DE;
+}
+.geofence-update-button:hover {
+    text-decoration: underline;
+    font-weight: bold;
+    color:#2B60DE;
+}
+
+.geofence-delete-button:hover {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #b71c1c;
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Geofence</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="dist.js"></script>
+    <script src="fence.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"
+    />
+
+    <!-- Load geocoding plugin after Leaflet -->
+    <link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.css">
+    <script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrBHL-a2XCCK7bdYDbhV3NKvV1m8-PK7E&libraries=places,geometry&callback=checkMaps">
+    </script>
+    <style>
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            height: 60px;
+            width:100px;
+        }
+
+
+
+        .button{
+            margin:15px;
+        }
+        #map{
+            height:800px;
+            margin:70px;
+            padding:10px;
+
+            border:2px solid #1D1F20;
+            box-shadow: 2px 2px #888888;
+        }
+        #search{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+        #find{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+        #searchAuto{
+            margin: 70px 20px 20px 10px;
+            padding:10px
+        }
+        #proximityThreshold{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+        #polygonName{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+        #searchGeofence{
+            margin: 10px 20px 20px 10px;
+            padding:10px;
+        }
+        /*#search-box {*/
+        /*    width: 800px;*/
+        /*    height: 100px;*/
+        /*}*/
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar fixed-top navbar-dark bg-info justify-content-between">
+    <span class="navbar-brand mb-01 h1" style="font-size: 23px">Geofencing </span>
+    <form class="form-inline">
+        <button type="button" class="btn btn-light" style="margin-right: 10px" id="modal_button" data-toggle="modal" onclick="goBackToIndex()" data-target="#exampleModal">Load List of Geofences</button>
+    </form>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">List of Geofences</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <ul class="list-group" id="list-group">
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col" id="map"></div>
+    <div class="col" id="inputData">
+        <!--<div class="row">
+            <div class="col" id="searchAuto">
+                <div class="form-group">
+                    <label for="Location"> Enter Location to Geofence:</label>
+                    <input type="text" class="form-control" id="autoInput" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your location with anyone else.</small>
+                </div>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="col" id="searchAuto">
+                <div class="form-group">
+                    <label for="Location"> Enter Location to Geofence:</label>
+                    <!--<div class="container">
+                        <input type="text" class="form-control" id="autoInput" aria-describedby="emailHelp" >
+                        <div id="target"></div>
+                        <div id="liqmap"></div>
+                        <div id="search-box">
+                        </div>
+                    </div>-->
+                    <div class="container">
+                        <div class="autocomplete"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5" id="proximityThreshold">
+                <div class="form-group">
+                    <label for="Proximity"> Enter proximity threshold in metres:</label>
+                    <input type="text" class="form-control" id="proximityThresholdInput" aria-describedby="emailHelp" placeholder='For eg. 100'>
+                    <button type="button" class="btn btn-outline-info button" id="proximityButton" onclick="setProximityThreshold()">Set Proximity</button>
+                </div>
+            </div>
+            <div class="col-5" id="polygonName">
+                <div class="form-group">
+                    <label for="Geofence"> Enter the Geofence feature name:</label>
+                    <input type="text" class="form-control" id="polygonNameInput" aria-describedby="emailHelp">
+                    <button type="button" class="btn btn-outline-info button" id="postButton" onclick="getInfo()">Save Polygon</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5" id="find">
+                <div class="form-group">
+                    <label for="Location"> Enter Location to Geofence:</label>
+                    <input type="text" class="form-control" id="exampleInputLocation" aria-describedby="emailHelp"  >
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your location with anyone else.</small>
+                    <button type="button" class="btn btn-outline-info button" id="locateButton" onclick="initMaps()">Locate</button>
+                    <h5 id="liveCoords"></h5>
+                </div>
+            </div>
+            <div class="col-5" id="search">
+                <div class="form-group">
+                    <label for="Location">Location Marker:</label>
+                    <input type="email" class="form-control" id="exampleMarkerLocation" aria-describedby="emailHelp" >
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your location with anyone else.</small>
+                    <button type="button" class="btn btn-outline-info button" id="checkButton" onclick="checkMarker()" >Add Marker</button>
+                </div>
+                <div class="col">
+                    <h2 id="result"></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" id="searchGeofence">
+                <div class="form-group">
+                    <small id="eventHelp" class="form-text text-muted">Check Events to be enabled</small>
+                    <input type="checkbox" id="ENTRY" name="ENTRY" value="ENTRY" checked="true">
+                    <label for="ENTRY"> ENTRY</label><br>
+                    <input type="checkbox" id="EXIT" name="EXIT" value="EXIT" checked="true">
+                    <label for="EXIT"> EXIT</label><br>
+                    <input type="checkbox" id="PROXIMITY" name="PROXIMITY" value="PROXIMITY" checked="true">
+                    <label for="PROXIMITY"> PROXIMITY</label><br>
+<!--                    <input type="checkbox" id="DWELL" name="DWELL" value="DWELL" checked="true">-->
+<!--                    <label for="DWELL"> DWELL</label><br>-->
+                    <button type="button" class="btn btn-outline-info button" id="updateEventButton"  onclick="updateEvents()">Update Events</button>
+                </div>
+                <div class="col">
+                    <h2 id="resultGeofence"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
